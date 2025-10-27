@@ -1,0 +1,48 @@
+data:
+    data: uniref50
+    N: &num_classes 31
+    tokenizer_name_or_path: facebook/esm2_t30_150M_UR50D
+
+model:
+    seed: 10
+    model: DiscreteDiffusion
+    gamma: 0
+    schedule_type: linear
+    forward_kwargs:
+        type: uniform
+        normalized: true
+        make_sym: false
+        ssp: false
+        beta: 1
+        alpha: 1
+    t_max: 0.999
+    restart: false
+
+architecture:
+    s_dim: 128
+    nn_params:
+        depth: 16
+        slim: true
+        simple_embed: False
+        use_fa: false
+        n_classes: *num_classes
+        hf_model_name: esm2_t30_150M_UR50D
+    x0_model_class: FAESM
+
+train:
+    batch_size: 32
+    n_epoch: 2
+    lr: 0.00001 
+    grad_clip_val: 1
+    weight_decay: 0
+    accumulate: 1
+    ema: false
+    length_batch: true
+    pack: false
+    total_n_dataloader_workers: 4
+    n_devices: 1
+    strategy: auto
+    psi: 31.
+
+sampling:
+    gen_trans_step: 2048

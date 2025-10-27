@@ -1,0 +1,52 @@
+data:
+    data: dna
+    N: 4
+
+model:
+    seed: 10
+    model: SimplicialDiffusion
+    gamma: 0
+    schedule_type: linear
+    forward_kwargs:
+        type: uniform
+        normalized: true
+        make_sym: false
+        ssp: false
+    t_max: 0.999
+    restart: false
+
+architecture:
+    s_dim: 128
+    nn_params:
+        args:
+            num_cnn_stacks: 4
+            hidden_dim: 128
+            dropout: 0.0
+            cls_free_guidance: false
+            clean_data: false
+            mode: dirichlet
+            cls_expanded_simplex: false
+        alphabet_size: 4
+        num_cls: 4
+        classifier: false
+    x0_model_class: DNAConv
+
+train:
+    batch_size: 128
+    n_epoch: 800
+    lr: 0.0005
+    grad_clip_val: 1
+    weight_decay: 0
+    accumulate: 1
+    ema: false
+    length_batch: false
+    pack: true
+    total_n_dataloader_workers: 4
+    zeta: 1
+    psi: 4.
+    n_devices: 1
+    strategy: auto
+    n_stat_samples: 1000
+
+sampling:
+    gen_trans_step: 2048
